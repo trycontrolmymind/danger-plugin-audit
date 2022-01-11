@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 
-import { AuditInfo } from "./AuditInfo";
-import { AuditParser } from "./AuditParser";
+import { AuditTemplate } from "./AuditInfo";
+import { YarnAuditParser } from "./AuditParser";
 import { Options } from "./interfaces";
 
 const execAudit = async (
@@ -44,12 +44,12 @@ export default async function yarnAudit(options: Options = {}) {
 
   try {
     const auditAnswer = await execAudit(auditCommandArr.join(" "), options);
-    const parser = new AuditParser();
+    const parser = new YarnAuditParser();
     parser.parse(auditAnswer);
 
-    const logger = new AuditInfo(parser);
-    logger.loadTpls();
-    logger.log();
+    const tpl = new AuditTemplate(parser);
+    tpl.loadTpl();
+    tpl.render();
   } catch (err) {
     console.error(err);
     fail("npm audit plugin error: " + JSON.stringify(err));

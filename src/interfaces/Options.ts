@@ -1,3 +1,5 @@
+import { Levels } from "./commons";
+
 export interface Options {
   /**
    * Applying the level flag will limit the audit table to vulnerabilities
@@ -20,42 +22,4 @@ export interface Options {
    * @see https://nodejs.org/dist/latest-v16.x/docs/api/child_process.html#child_processexecsynccommand-options
    */
   maxBuffer?: number;
-}
-
-export interface IAdvisory {
-  levelEmoji: string;
-  level: Levels;
-  moduleName: string;
-  title: string;
-  recommendation: string;
-  link: string;
-  path: string;
-  patchedIn: string;
-}
-
-export type Totals = {
-  severities: Array<{ level: string; count: number }>;
-  vulnerabilitiesCount: number;
-  packagesCount: number;
-};
-
-export type Levels = "info" | "low" | "moderate" | "high" | "critical";
-
-export interface IAdvisoryYarn {
-  advisory: {
-    severity: Levels;
-    recommendation: string;
-    url: string;
-    title: string;
-    module_name: string;
-    patched_versions: string;
-  };
-  resolution: {
-    path: string;
-  };
-}
-
-export interface ISummaryYarn {
-  vulnerabilities: Record<string, number>;
-  dependencies: number;
 }

@@ -7,8 +7,9 @@ import {
   Levels,
   Totals,
 } from "./interfaces";
+import { IAuditParser } from "./interfaces/IAuditParser";
 
-export class AuditParser {
+export class YarnAuditParser implements IAuditParser {
   private _totals: Totals = {
     severities: [],
     vulnerabilitiesCount: 0,

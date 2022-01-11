@@ -3,14 +3,15 @@ import path from "path";
 
 import ejs from "ejs";
 
-import { AuditParser } from "./AuditParser";
-export class AuditInfo {
+import { IAuditParser } from "./interfaces/IAuditParser";
+
+export class AuditTemplate {
   private template: ejs.TemplateFunction = () => "";
   private defaultTplPath = path.join(__dirname, "ejs/template.ejs");
 
-  constructor(private readonly parser: AuditParser) {}
+  constructor(private readonly parser: IAuditParser) {}
 
-  public log() {
+  public render() {
     if (this.parser.advisories.length > 0) {
       const msg = this.template({
         totals: this.parser.totals,
@@ -20,7 +21,7 @@ export class AuditInfo {
     }
   }
 
-  public loadTpls() {
+  public loadTpl() {
     const fileContent = fs.readFileSync(this.defaultTplPath).toString("utf-8");
     this.template = ejs.compile(fileContent);
   }
