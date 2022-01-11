@@ -6,15 +6,16 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "watch:build": "tsc -p tsconfig.json -w",
-    "build": "rimraf dist/**/* && tsc -p tsconfig.json",
+    "prebuild": "rimraf dist/**/*",
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "copyfiles -u 1 -a 'src/ejs/*.ejs' dist/",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:lint": "eslint src --ext .ts",
-    "test:prettier": "prettier \"src/**/*.ts\" --list-different",
-    "postbuild": "copyfiles -u 1 -a 'src/ejs/*.ejs' dist/"
+    "test:prettier": "prettier \"src/**/*.ts\" --list-different"
   },
   "files": [
-    "dist",
+    "dist/**/*",
     "README.md",
     "License"
   ],
