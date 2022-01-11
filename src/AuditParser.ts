@@ -1,27 +1,35 @@
-import { writeFileSync } from "fs";
 import { EOL } from "os";
 
-import { IAdvisory, Totals } from "./interfaces";
+import {
+  IAdvisory,
+  IAdvisoryYarn,
+  ISummaryYarn,
+  Levels,
+  Totals,
+} from "./interfaces";
 
 export class AuditParser {
-  private _vulnTotal: Totals = {};
-  private _totalDeps = 0;
+  private _totals: Totals = {
+    severities: [],
+    vulnerabilitiesCount: 0,
+    packagesCount: 0,
+  };
   private _advisories: IAdvisory[] = [];
 
-  get totalDeps() {
-    return this._totalDeps;
-  }
-
-  get vulnTotal() {
-    return this._vulnTotal;
+  get totals() {
+    return this._totals;
   }
 
   get advisories() {
     return this._advisories;
   }
 
+  /**
+   * Parse stdout from yarn audit command
+   * Find summary and advisories
+   * @param str stdout from yarn audit command
+   */
   public parse(str: string) {
-    writeFileSync("debug", str);
     const splitted = str.split(EOL);
 
     splitted
@@ -42,21 +50,48 @@ export class AuditParser {
       });
   }
 
-  private parseSummary(data: any) {
-    this._vulnTotal = data?.vulnerabilities || this._vulnTotal;
-
-    this._totalDeps = data?.totalDependencies || this._totalDeps;
+  private parseSummary(data: ISummaryYarn) {
+    let totalVulnerabilitiesCount = 0;
+    this.totals.severities = Object.keys(data.vulnerabilities).map((level) => {
+      const count = data.vulnerabilities[level];
+      totalVulnerabilitiesCount += count;
+      return {
+        count,
+        level,
+      };
+    });
+    this.totals.vulnerabilitiesCount = totalVulnerabilitiesCount;
+    this.totals.packagesCount = data.dependencies;
   }
 
-  private parseAdvisory(data: any) {
+  private parseAdvisory(data: IAdvisoryYarn) {
     const advisory = data?.advisory;
     this._advisories.push({
+      levelEmoji: this.getTypeEmoji(advisory.severity),
       level: advisory?.severity,
       recommendation: advisory?.recommendation,
       link: advisory?.url,
       title: advisory?.title,
       path: data?.resolution?.path.split(">").join(" > "),
       moduleName: advisory?.module_name,
+      patchedIn: advisory?.patched_versions,
     });
+  }
+
+  private getTypeEmoji(level: Levels) {
+    switch (level) {
+      case "info":
+        return "ℹ️";
+      case "low":
+        return "🟦";
+      case "moderate":
+        return "⚠️";
+      case "high":
+        return "❗";
+      case "critical":
+        return "🚫";
+      default:
+        return "";
+    }
   }
 }
