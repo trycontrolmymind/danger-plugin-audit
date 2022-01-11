@@ -1,0 +1,7 @@
+| title                              | path          | patched in         | more          |
+| ---                                | ---           | ---                | ---           |
+<% advisories.forEach(function(a) { %>| <%- a.levelEmoji %> <%- a.title %> | <%- a.path %> | <%- a.patchedIn %> | [<%- a.link %>](<%- a.link %>) |
+<% }); %>
+
+<%- totals.vulnerabilitiesCount %> vulnerabilities found - Package audited <%- totals.packagesCount %>.  
+Severity: <% totals.severities.forEach(function (s) { %> <%- s.count %> <%- s.level %> | <% }); %>
