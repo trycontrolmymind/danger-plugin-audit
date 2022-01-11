@@ -31,7 +31,7 @@ const execAudit = async (
   });
 };
 
-export default async function yarnAudit(options: Options = {}) {
+export async function yarnAudit(options: Options = {}) {
   const auditCommandArr = ["yarn audit --json"];
 
   if (options.level) {

@@ -1,4 +1,4 @@
-## danger-plugin-yarn-audit
+## danger-plugin-audit
 
 Danger plugin which will create notification when found any vulnerable `yarn audit` summary
 
@@ -7,14 +7,14 @@ Danger plugin which will create notification when found any vulnerable `yarn aud
 Install:
 
 ```sh
-yarn add -D danger-plugin-yarn-audit
+yarn add -D danger-plugin-audit
 ```
 
 Dangerfile.ts:
 
 ```typescript
 import { schedule } from "danger";
-import yarnAudit from "danger-plugin-yarn-audit";
+import { yarnAudit } from "danger-plugin-audit";
 
 // Note: You need to use schedule()
 schedule(yarnAudit());
@@ -29,8 +29,6 @@ Applying the level flag will limit the audit table to vulnerabilities of the cor
 https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
 
 ```typescript
-import yarnAudit from "danger-plugin-yarn-audit";
-
 schedule(yarnAudit({ level: "high" }));
 ```
 
@@ -41,8 +39,6 @@ Applying the groups flag will limit the audit table to vulnerabilities of the co
 https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
 
 ```typescript
-import yarnAudit from "danger-plugin-yarn-audit";
-
 schedule(yarnAudit({ groups: "dependencies devDependencies" }));
 ```
 
