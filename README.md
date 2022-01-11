@@ -1,13 +1,13 @@
-## danger-plugin-npm-audit
+## danger-plugin-yarn-audit
 
-> Danger plugin which will give attention to `npm audit` summary
+Danger plugin which will create notification when found any vulnerable `yarn audit` summary
 
 ## Usage
 
 Install:
 
 ```sh
-npm i -D danger-plugin-yarn-audit
+yarn add -D danger-plugin-yarn-audit
 ```
 
 Dangerfile.ts:
@@ -22,17 +22,34 @@ schedule(yarnAudit());
 
 ## Options
 
+### Filter by vulnerability level
+
+Applying the level flag will limit the audit table to vulnerabilities of the corresponding level and above.
+
+https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
+
 ```typescript
-export interface Options {
-  level?: Levels;
-  maxBuffer?: number;
-}
+import yarnAudit from "danger-plugin-yarn-audit";
+
+schedule(yarnAudit({ level: "high" }));
+```
+
+### Group by type
+
+Applying the groups flag will limit the audit table to vulnerabilities of the corresponding dependency groups (e.g dependencies, devDependencies).
+
+https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
+
+```typescript
+import yarnAudit from "danger-plugin-yarn-audit";
+
+schedule(yarnAudit({ groups: "dependencies devDependencies" }));
 ```
 
 ## Example
 
-| severity | module                                                           | path                                                               | recommendation                    |
-| -------- | ---------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------- |
-| ❗ high  | [glob-parent](https://github.com/advisories/GHSA-ww39-953v-wcq6) | webpack > watchpack > watchpack-chokidar2 > chokidar > glob-parent | Upgrade to version 5.1.2 or later |
+|  title | package  | path  | recommendation |
+| ---       | ---     | ---   | ---            |
+| ⚠️  Prototype Pollution in node-jsonpointer | [jsonpointer](https://github.com/advisories/GHSA-282f-qqgm-c34q) | danger > jsonpointer | Upgrade to version 5.0.0 or later |
 
-Scanned 510 dependencies, info 0, low 0, moderate 0, high 1, critical 0.
+Scanned 159 dependencies, found vulnerabilities: info 0, low 0, moderate 1, high 0, critical 0.
