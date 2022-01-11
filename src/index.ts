@@ -48,8 +48,10 @@ export default async function yarnAudit(options: Options = {}) {
     parser.parse(auditAnswer);
 
     const logger = new AuditInfo(parser);
+    logger.loadTpls();
     logger.log();
   } catch (err) {
+    console.error(err);
     fail("npm audit plugin error: " + JSON.stringify(err));
   }
 }
