@@ -1,18 +1,27 @@
-import { EOL } from "os";
+import fs from "fs";
+import path from "path";
+
+import ejs from "ejs";
 
 import { AuditParser } from "./AuditParser";
-import { renderAdvisories, renderTotals } from "./templates/advisoryTemplate";
-
 export class AuditInfo {
+  private template: ejs.TemplateFunction = () => "";
+  private defaultTplPath = path.join(__dirname, "ejs/template.ejs");
+
   constructor(private readonly parser: AuditParser) {}
 
   public log() {
     if (this.parser.advisories.length > 0) {
-      const msg = [
-        renderAdvisories(this.parser.advisories),
-        renderTotals(this.parser.vulnTotal, this.parser.totalDeps),
-      ].join(EOL);
+      const msg = this.template({
+        totals: this.parser.totals,
+        advisories: this.parser.advisories,
+      });
       markdown(msg);
     }
+  }
+
+  public loadTpls() {
+    const fileContent = fs.readFileSync(this.defaultTplPath).toString("utf-8");
+    this.template = ejs.compile(fileContent);
   }
 }
