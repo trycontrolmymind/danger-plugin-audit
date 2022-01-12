@@ -44,8 +44,14 @@ schedule(yarnAudit({ groups: "dependencies devDependencies" }));
 
 ## Example
 
-|  title | package  | path  | recommendation |
-| ---       | ---     | ---   | ---            |
-| ⚠️  Prototype Pollution in node-jsonpointer | [jsonpointer](https://github.com/advisories/GHSA-282f-qqgm-c34q) | danger > jsonpointer | Upgrade to version 5.0.0 or later |
+| title                              | path          | patched in         | more          |
+| ---                                | ---           | ---                | ---           |
+| ⚠️ Prototype Pollution in node-jsonpointer | danger > jsonpointer | >=5.0.0 | [https://github.com/advisories/GHSA-282f-qqgm-c34q](https://github.com/advisories/GHSA-282f-qqgm-c34q) |
+| ❗ Uncontrolled Resource Consumption in parse-link-header | danger > parse-link-header | >=2.0.0 | [https://github.com/advisories/GHSA-q674-xm3x-2926](https://github.com/advisories/GHSA-q674-xm3x-2926) |
 
-Scanned 159 dependencies, found vulnerabilities: info 0, low 0, moderate 1, high 0, critical 0.
+
+2 vulnerabilities found - Package audited 167.  
+Severity:  0 info |  0 low |  1 moderate |  1 high |  0 critical | 
+
+Full example you can find here:
+https://gitlab.com/vlaad360/example-project-danger/-/merge_requests/1
