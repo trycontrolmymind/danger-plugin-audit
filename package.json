@@ -1,6 +1,6 @@
 {
   "name": "danger-plugin-audit",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Danger plugin for yarn audit summary",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
