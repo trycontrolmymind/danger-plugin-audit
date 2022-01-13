@@ -10,13 +10,13 @@ Install:
 yarn add -D danger-plugin-audit
 ```
 
-Dangerfile.ts:
+dangerfile.js:
 
 ```typescript
-import { schedule } from "danger";
-import { yarnAudit } from "danger-plugin-audit";
+const { schedule } = require("danger");
+const { yarnAudit } = require("danger-plugin-audit");
 
-// Note: You need to use schedule()
+// Note: You need to use schedule() check
 schedule(yarnAudit());
 ```
 
@@ -28,7 +28,7 @@ Applying the level flag will limit the audit table to vulnerabilities of the cor
 
 https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
 
-```typescript
+```javascript
 schedule(yarnAudit({ level: "high" }));
 ```
 
@@ -38,7 +38,7 @@ Applying the groups flag will limit the audit table to vulnerabilities of the co
 
 https://classic.yarnpkg.com/en/docs/cli/audit/#toc-commands
 
-```typescript
+```javascript
 schedule(yarnAudit({ groups: "dependencies devDependencies" }));
 ```
 

@@ -31,6 +31,12 @@ const execAudit = async (
   });
 };
 
+/**
+ * Launch `yarn audit` and render response
+ *
+ * @export
+ * @param {Options} [options={}] Options to yarn audit command
+ */
 export async function yarnAudit(options: Options = {}) {
   const auditCommandArr = ["yarn audit --json"];
 
